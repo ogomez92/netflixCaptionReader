@@ -45,4 +45,22 @@
 
   // Check continuously. 200 ms shouldn't affect CPU
   setInterval(speakCaptions, 200);
+
+  // If CTRL shift r is pressed, report title remaining by getting the span with the data-uia="controls-time-remaining" and putting it as speaker innerText
+  document.addEventListener('keydown', (event) => {
+    if (event.ctrlKey && event.shiftKey && event.code === 'KeyR') {
+      event.preventDefault()
+      const remaining = document.querySelector('span[data-uia="controls-time-remaining"]')
+      speaker.innerText = remaining.innerText
+    }
+
+    if (event.ctrlKey && event.shiftKey && event.code === 'KeyE') {
+      event.preventDefault()
+      const title = document.querySelector('div[data-uia="video-title"]')
+      // Get the text of all spans contained inside this div
+      const spans = title.querySelectorAll('span')
+      const text = Array.from(spans).map(span => span.innerText).join(' ')
+      speaker.innerText = text
+    }
+  })
 }());
